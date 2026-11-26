@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f3f7f6">
+    <meta name="description" content="لوحة متابعة شخصية لشهادات الادخار ومواعيد استحقاقها.">
+    <title>محفظة الشهادات | محمود عبدالقادر كاني</title>
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#certificates">انتقل إلى الشهادات</a>
+    <header class="site-header" id="overview">
+        <div class="shell header-inner">
+            <a class="brand" href="#overview">
+                <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span>محفظتي</span>
+            </a>
+            <nav aria-label="أقسام المحفظة">
+                <a class="nav-overview" href="#overview">نظرة عامة</a>
+                <a href="#certificates">الشهادات</a>
+            </nav>
+            <div class="header-actions">
+                <time class="today" id="today" dir="ltr"></time>
+                <button class="theme-toggle" id="themeToggle" type="button" role="switch" aria-label="الوضع الداكن" aria-checked="false" hidden>
+                    <span class="theme-label" aria-hidden="true">الوضع الداكن</span>
+                    <span class="theme-track" aria-hidden="true"><span class="theme-thumb"></span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="shell dashboard">
+        <section class="hero" aria-labelledby="page-title">
+            <div class="hero-copy">
+                <p class="bank-label"><span aria-hidden="true"></span>البنك الأهلي المصري</p>
+                <h1 id="page-title">محفظة الشهادات</h1>
+                <p class="account-name">محمود عبدالقادر كاني</p>
+            </div>
+            <div class="balance">
+                <div class="balance-art" aria-hidden="true">
+                    <i class="orbit orbit-outer"></i>
+                    <i class="orbit orbit-inner"></i>
+                    <span class="art-certificate"><i></i><i></i><i></i></span>
+                </div>
+                <div class="balance-copy">
+                    <p>إجمالي قيمة الشهادات</p>
+                    <div class="balance-figure"><bdi id="totalAmount" dir="ltr">—</bdi><span>جنيه مصري</span></div>
+                    <button class="day-sort-toggle" id="daySortToggle" type="button" aria-pressed="false" aria-controls="statementBody" hidden>
+                        <span class="day-sort-icon" aria-hidden="true"></span>
+                        <span>ترتيب بيوم الاستحقاق فقط</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <dl class="insights" aria-label="ملخص المحفظة">
+            <div class="insight">
+                <span class="metric-icon metric-stack" aria-hidden="true"></span>
+                <div><dt>عدد الشهادات</dt><dd><bdi id="certificateCount">—</bdi></dd></div>
+            </div>
+            <div class="insight">
+                <span class="metric-icon metric-calendar" aria-hidden="true"></span>
+                <div><dt>أقرب موعد استحقاق مسجّل</dt><dd><bdi id="nextMaturity" dir="ltr">—</bdi></dd></div>
+            </div>
+            <div class="insight">
+                <span class="metric-icon metric-rate" aria-hidden="true">%</span>
+                <div><dt>أعلى نسبة عائد</dt><dd><bdi id="topInterest" dir="ltr">—</bdi></dd></div>
+            </div>
+        </dl>
+
+        <section class="ledger" id="certificates" aria-labelledby="ledger-title">
+            <div class="section-heading">
+                <h2 id="ledger-title">سجل الشهادات</h2>
+                <p id="resultCount" role="status" aria-live="polite" aria-atomic="true"></p>
+            </div>
+
+            <form class="filters" id="filters" role="search" aria-label="البحث في الشهادات وتصفيتها">
+                <div class="primary-filters">
+                    <label class="field search-field" for="search">
+                        <span>البحث</span>
+                        <span class="search-input"><input id="search" type="search" placeholder="ابحث بالمبلغ أو التاريخ أو العائد" autocomplete="off"></span>
+                    </label>
+                    <label class="field" for="statusFilter">
+                        <span>الحالة</span>
+                        <select id="statusFilter">
+                            <option value="">كل الحالات</option>
+                            <option value="upcoming">استحقاق قادم</option>
+                            <option value="due">حلّ موعد الاستحقاق</option>
+                        </select>
+                    </label>
+                    <label class="field" for="sortBy">
+                        <span>الترتيب حسب</span>
+                        <select id="sortBy">
+                            <option value="issueDate">تاريخ الإصدار</option>
+                            <option value="amount">قيمة الشهادة</option>
+                            <option value="dueDate">تاريخ الاستحقاق</option>
+                            <option value="interest">نسبة العائد</option>
+                            <option value="dueDay">يوم الاستحقاق من الشهر</option>
+                        </select>
+                    </label>
+                    <label class="field sort-direction" for="sortDirection">
+                        <span>الاتجاه</span>
+                        <select id="sortDirection">
+                            <option value="desc">تنازلي</option>
+                            <option value="asc">تصاعدي</option>
+                        </select>
+                    </label>
+                </div>
+
+                <details class="advanced">
+                    <summary>فلاتر إضافية <span class="filter-count" id="advancedCount" hidden></span></summary>
+                    <div class="advanced-filters">
+                        <label class="field" for="rateFilter"><span>نسبة العائد</span><select id="rateFilter"><option value="">كل النسب</option><option value="unknown">غير مسجّل</option></select></label>
+                        <label class="field" for="typeFilter">
+                            <span>نوع العائد</span>
+                            <select id="typeFilter">
+                                <option value="">كل الأنواع</option>
+                                <option value="fixed">ثابت</option>
+                                <option value="unknown">غير مسجّل</option>
+                            </select>
+                        </label>
+                        <label class="field" for="yearFilter"><span>سنة الاستحقاق</span><select id="yearFilter"><option value="">كل السنوات</option></select></label>
+                        <label class="field" for="minimum"><span>أقل قيمة</span><input id="minimum" type="number" min="0" step="any" inputmode="decimal" placeholder="بالجنيه"></label>
+                        <label class="field" for="maximum"><span>أعلى قيمة</span><input id="maximum" type="number" min="0" step="any" inputmode="decimal" placeholder="بالجنيه"></label>
+                    </div>
+                </details>
+                <button class="reset-button" id="resetFilters" type="button">إعادة الضبط</button>
+            </form>
+
+            <div class="table-wrap">
+                <table role="table" aria-labelledby="ledger-title">
+                    <thead role="rowgroup">
+                        <tr role="row">
+                            <th role="columnheader" scope="col">قيمة الشهادة</th>
+                            <th role="columnheader" scope="col">تاريخ الإصدار</th>
+                            <th role="columnheader" scope="col">تاريخ الاستحقاق</th>
+                            <th role="columnheader" scope="col">العائد</th>
+                            <th role="columnheader" scope="col">الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody role="rowgroup" id="statementBody"></tbody>
+                </table>
+                <p class="empty-state" id="emptyState" hidden></p>
+                <noscript><p class="empty-state">فعّل JavaScript لعرض الشهادات واستخدام الفلاتر.</p></noscript>
+            </div>
+            <div class="table-footer"><span>إجمالي نتائج البحث</span><div><bdi id="filteredTotal">—</bdi> <span>جنيه</span></div></div>
+        </section>
+    </main>
+    <div class="coin-layer" id="coinLayer" aria-hidden="true"></div>
+</body>
+</html>
